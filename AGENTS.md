@@ -139,6 +139,16 @@ Quando a UI existir, adicionar `cargo leptos watch` e o teste com produtor real.
 - Se HG-1 ❌: abre Ciclo 3.2 (ajuste visual, escopo travado em
   pages/components/styles). Tag do 3.1 permanece.
 
+### Caveat do snapshot tagueado (731b69d)
+
+O commit 731b69d (alvo de `ciclo-3-aprovado`) contém a redação antiga
+do §7, que dizia "não taguear antes do HG-1". A correção está em
+aa2d5ee (main), posterior ao tag. Quem fizer `git checkout
+ciclo-3-aprovado` deve saber que a instrução contraditória no documento
+é histórica, não vigente. Regra vigente está em main.
+
+Não reescrever o tag por isso: ref público, custo > benefício.
+
 ### Regras de processo (consolidadas)
 
 - §2.1 — CA de framework só depois de medir (curl -i, ler código do
