@@ -10,6 +10,8 @@ use domain::TipoCusto;
 /// apenas converte o `f64` já calculado pelo domínio em texto.
 pub(crate) fn formatar_moeda(valor: f64) -> String {
     let sinal = if valor < 0.0 { "-" } else { "" };
+    // A aritmética abaixo (`*100.0`, `/100`, `%100`) é apenas formatação de
+    // número para exibição; o valor de negócio já veio calculado do domínio.
     let centavos = (valor.abs() * 100.0).round() as u64;
     let reais = centavos / 100;
     let resto = centavos % 100;

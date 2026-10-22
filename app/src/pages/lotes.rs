@@ -44,7 +44,7 @@ pub fn PaginaLotes() -> impl IntoView {
 fn ListaLotes(lotes: Vec<LoteComResumo>) -> impl IntoView {
     if lotes.is_empty() {
         view! {
-            <section class="estado-vazio">
+            <section class="estado-vazio lista-lotes">
                 <p>"Nenhum lote cadastrado"</p>
                 <A href="/lotes/novo" attr:class="botao botao-estado-vazio">"Novo Lote"</A>
             </section>
@@ -52,55 +52,59 @@ fn ListaLotes(lotes: Vec<LoteComResumo>) -> impl IntoView {
         .into_any()
     } else {
         view! {
-            <div class="tabela-container">
-                <table class="tabela-lotes">
-                    <thead>
-                        <tr>
-                            <th scope="col">"Lote"</th>
-                            <th scope="col">"Animais"</th>
-                            <th scope="col">"Custo total"</th>
-                            <th scope="col">"Resultado"</th>
-                            <th scope="col">"Margem"</th>
-                            <th scope="col">"Ações"</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {lotes
-                            .into_iter()
-                            .map(|item| {
-                                let LoteComResumo { lote, resumo } = item;
-                                let classe_resultado = if resumo.resultado >= 0.0 {
-                                    "resultado-positivo"
-                                } else {
-                                    "resultado-negativo"
-                                };
-                                view! {
-                                    <tr>
-                                        <td>{lote.nome}</td>
-                                        <td>{lote.qtd_animais}</td>
-                                        <td>{formatar_moeda(resumo.custo_total)}</td>
-                                        <td class=classe_resultado>
-                                            {formatar_resultado(resumo.resultado)}
-                                        </td>
-                                        <td>
-                                            <span class=classe_margem(resumo.margem)>
-                                                {formatar_margem(resumo.margem)}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <A
-                                                href=format!("/lotes/{}", lote.id)
-                                                attr:class="link-detalhe"
-                                            >
-                                                "Ver detalhe"
-                                            </A>
-                                        </td>
-                                    </tr>
-                                }
-                            })
-                            .collect_view()}
-                    </tbody>
-                </table>
+            <div class="lista-lotes">
+                <div class="tabela-container">
+                    <table class="tabela-lotes">
+                        <thead>
+                            <tr>
+                                <th scope="col">"Lote"</th>
+                                <th scope="col">"Animais"</th>
+                                <th scope="col">"Custo total"</th>
+                                <th scope="col">"Resultado"</th>
+                                <th scope="col">"Margem"</th>
+                                <th scope="col">"Ações"</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {lotes
+                                .into_iter()
+                                .map(|item| {
+                                    let LoteComResumo { lote, resumo } = item;
+                                    let classe_resultado = if resumo.resultado >= 0.0 {
+                                        "resultado-positivo"
+                                    } else {
+                                        "resultado-negativo"
+                                    };
+                                    view! {
+                                        <tr>
+                                            <td data-label="Lote">{lote.nome}</td>
+                                            <td data-label="Animais">{lote.qtd_animais}</td>
+                                            <td data-label="Custo total">
+                                                {formatar_moeda(resumo.custo_total)}
+                                            </td>
+                                            <td data-label="Resultado" class=classe_resultado>
+                                                {formatar_resultado(resumo.resultado)}
+                                            </td>
+                                            <td data-label="Margem">
+                                                <span class=classe_margem(resumo.margem)>
+                                                    {formatar_margem(resumo.margem)}
+                                                </span>
+                                            </td>
+                                            <td data-label="Ações">
+                                                <A
+                                                    href=format!("/lotes/{}", lote.id)
+                                                    attr:class="link-detalhe"
+                                                >
+                                                    "Ver detalhe"
+                                                </A>
+                                            </td>
+                                        </tr>
+                                    }
+                                })
+                                .collect_view()}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         }
         .into_any()

@@ -60,8 +60,18 @@ docker compose down -v
 cargo leptos watch
 ```
 
-A aplicação sobe em `http://127.0.0.1:3000`. Neste ciclo, a raiz mostra apenas
-um placeholder; as telas reais entram no Ciclo 3.
+A aplicação sobe por padrão em `http://127.0.0.1:3000`, acessível apenas da
+própria máquina. Esse é o bind seguro para desenvolvimento.
+
+Para testar em um celular na mesma rede, defina o bind explicitamente:
+
+```bash
+LEPTOS_SITE_ADDR=0.0.0.0:3000 cargo leptos watch
+```
+
+O `0.0.0.0` expõe a aplicação a qualquer dispositivo da rede local, sem
+autenticação, e representa risco de segurança. Use apenas durante o teste,
+em rede confiável, e volte para `127.0.0.1:3000` depois.
 
 O servidor Axum injeta o `sqlx::PgPool` como `Extension` e as server functions
 ficam em `app/src/api/`, todas com `#[server]`. Toda query usa `sqlx::query_as!`

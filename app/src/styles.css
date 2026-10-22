@@ -408,6 +408,79 @@ h3 {
     }
 }
 
+@media (max-width: 640px) {
+    .lista-lotes .tabela-container {
+        overflow-x: visible;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+    }
+
+    .lista-lotes .tabela-lotes {
+        width: 100%;
+        min-width: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .lista-lotes .tabela-lotes thead {
+        display: none;
+    }
+
+    .lista-lotes .tabela-lotes,
+    .lista-lotes .tabela-lotes tbody,
+    .lista-lotes .tabela-lotes tr,
+    .lista-lotes .tabela-lotes td {
+        display: block;
+        width: 100%;
+    }
+
+    .lista-lotes .tabela-lotes tr {
+        margin-bottom: 0.75rem;
+        padding: 0.9rem 1rem;
+        border: 1px solid var(--borda);
+        border-radius: 0.9rem;
+        background: var(--superficie);
+    }
+
+    .lista-lotes .tabela-lotes tbody tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .lista-lotes .tabela-lotes td {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.25rem 0;
+        border: 0;
+        text-align: right;
+        white-space: normal;
+    }
+
+    .lista-lotes .tabela-lotes td::before {
+        content: attr(data-label);
+        color: var(--texto-suave);
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-align: left;
+    }
+
+    .lista-lotes .tabela-lotes td:first-child {
+        padding-top: 0;
+        font-size: 1.05rem;
+        font-weight: 800;
+    }
+
+    .lista-lotes .tabela-lotes td:last-child {
+        padding-bottom: 0;
+    }
+
+    .lista-lotes .tabela-lotes tbody tr:hover {
+        background: var(--superficie);
+    }
+}
+
 @media (max-width: 560px) {
     .topo,
     .termometro-topo {
