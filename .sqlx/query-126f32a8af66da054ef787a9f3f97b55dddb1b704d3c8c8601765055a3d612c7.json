@@ -1,0 +1,58 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT\n            id,\n            nome,\n            data_entrada,\n            qtd_animais,\n            peso_inicial_medio::float8 AS \"peso_inicial_medio!\",\n            custo_compra_total::float8 AS \"custo_compra_total!\",\n            status\n        FROM lotes\n        WHERE id = $1\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "nome",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "data_entrada",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 3,
+        "name": "qtd_animais",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "peso_inicial_medio!",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 5,
+        "name": "custo_compra_total!",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 6,
+        "name": "status",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      null,
+      null,
+      false
+    ]
+  },
+  "hash": "126f32a8af66da054ef787a9f3f97b55dddb1b704d3c8c8601765055a3d612c7"
+}

@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO precos_mercado (data, regiao, preco_kg)\n        VALUES ($1, $2, $3::float8::numeric)\n        ON CONFLICT (data, regiao)\n        DO UPDATE SET preco_kg = EXCLUDED.preco_kg\n        RETURNING id\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Date",
+        "Text",
+        "Float8"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "27e80c490131a84b32fc8282bcab024f7ad401e4e02f9375be53c9695e730b00"
+}

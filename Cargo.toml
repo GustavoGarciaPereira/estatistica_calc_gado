@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["domain"]
+members = ["domain", "app", "server"]
 
 [workspace.package]
 version = "0.1.0"
@@ -10,3 +10,13 @@ license = "proprietary"
 [workspace.dependencies]
 chrono = { version = "0.4", default-features = false, features = ["std"] }
 serde = { version = "1", features = ["derive"] }
+
+[[workspace.metadata.leptos]]
+name = "estatistica_calc_gado"
+bin-package = "server"
+lib-package = "app"
+lib-features = ["hydrate"]
+site-root = "target/site"
+site-pkg-dir = "pkg"
+site-addr = "127.0.0.1:3000"
+reload-port = 3001

@@ -2,5 +2,8 @@
 **/target
 .env
 .env.*
+!.env.example
 *.log
 .DS_Store
+
+# .sqlx/ é versionado de propósito: permite build offline sem DATABASE_URL.
