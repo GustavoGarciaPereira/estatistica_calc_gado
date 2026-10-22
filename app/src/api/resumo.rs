@@ -39,12 +39,14 @@ pub struct VariacaoPreco {
 
 #[server]
 pub async fn resumo_lote(id: Uuid) -> Result<DetalheLote, ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::custo::{row_para_custo, CustoRow};
     use crate::api::lote::{row_para_lote, LoteRow};
     use crate::api::pesagem::{row_para_pesagem, PesagemRow};
     use crate::api::preco::{row_para_preco, PrecoRow};
     use crate::api::ssr::pool;
 
+    let usuario_id = exigir_usuario_id().await?;
     let pool = pool().await?;
     let data_ref = chrono::Local::now().date_naive();
 
@@ -61,8 +63,10 @@ pub async fn resumo_lote(id: Uuid) -> Result<DetalheLote, ServerFnError> {
             status
         FROM lotes
         WHERE id = $1
+          AND usuario_id = $2
         "#,
-        id
+        id,
+        usuario_id
     )
     .fetch_optional(&pool)
     .await?
@@ -70,10 +74,15 @@ pub async fn resumo_lote(id: Uuid) -> Result<DetalheLote, ServerFnError> {
 
     let lote = row_para_lote(lote_row)?;
 
-    let regiao_row = sqlx::query_as!(RegiaoRow, "SELECT regiao FROM lotes WHERE id = $1", id)
-        .fetch_optional(&pool)
-        .await?
-        .ok_or_else(|| ServerFnError::new("lote não encontrado"))?;
+    let regiao_row = sqlx::query_as!(
+        RegiaoRow,
+        "SELECT regiao FROM lotes WHERE id = $1 AND usuario_id = $2",
+        id,
+        usuario_id
+    )
+    .fetch_optional(&pool)
+    .await?
+    .ok_or_else(|| ServerFnError::new("lote não encontrado"))?;
 
     let regiao = regiao_row.regiao;
 
@@ -81,15 +90,18 @@ pub async fn resumo_lote(id: Uuid) -> Result<DetalheLote, ServerFnError> {
         PesagemRow,
         r#"
         SELECT
-            id,
-            lote_id,
-            data,
-            peso_medio::float8 AS "peso_medio!"
-        FROM pesagens
-        WHERE lote_id = $1
-        ORDER BY data
+            p.id,
+            p.lote_id,
+            p.data,
+            p.peso_medio::float8 AS "peso_medio!"
+        FROM pesagens p
+        JOIN lotes l ON l.id = p.lote_id
+        WHERE p.lote_id = $1
+          AND l.usuario_id = $2
+        ORDER BY p.data
         "#,
-        id
+        id,
+        usuario_id
     )
     .fetch_all(&pool)
     .await?
@@ -101,16 +113,19 @@ pub async fn resumo_lote(id: Uuid) -> Result<DetalheLote, ServerFnError> {
         CustoRow,
         r#"
         SELECT
-            id,
-            lote_id,
-            data,
-            tipo,
-            valor::float8 AS "valor!"
-        FROM custos
-        WHERE lote_id = $1
-        ORDER BY data
+            c.id,
+            c.lote_id,
+            c.data,
+            c.tipo,
+            c.valor::float8 AS "valor!"
+        FROM custos c
+        JOIN lotes l ON l.id = c.lote_id
+        WHERE c.lote_id = $1
+          AND l.usuario_id = $2
+        ORDER BY c.data
         "#,
-        id
+        id,
+        usuario_id
     )
     .fetch_all(&pool)
     .await?
@@ -157,7 +172,10 @@ pub async fn resumo_lote(id: Uuid) -> Result<DetalheLote, ServerFnError> {
 
 #[server]
 pub async fn listar_lotes_com_resumo() -> Result<Vec<LoteComResumo>, ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::lote::listar_lotes;
+
+    let _usuario_id = exigir_usuario_id().await?;
 
     // O resumo de cada lote é carregado individualmente (N+1). O limite de 50
     // mantém a tela previsível enquanto o MVP não tem paginação.
@@ -181,8 +199,10 @@ pub async fn listar_lotes_com_resumo() -> Result<Vec<LoteComResumo>, ServerFnErr
 
 #[server]
 pub async fn variacao_preco_7d() -> Result<VariacaoPreco, ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::ssr::pool;
 
+    let _usuario_id = exigir_usuario_id().await?;
     let pool = pool().await?;
     let data_ref = chrono::Local::now().date_naive();
 

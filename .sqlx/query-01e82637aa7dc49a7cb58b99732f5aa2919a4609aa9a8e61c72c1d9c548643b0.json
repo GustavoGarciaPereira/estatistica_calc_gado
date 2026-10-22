@@ -1,16 +1,17 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT status FROM lotes WHERE id = $1",
+  "query": "SELECT regiao FROM lotes WHERE id = $1 AND usuario_id = $2",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
-        "name": "status",
+        "name": "regiao",
         "type_info": "Text"
       }
     ],
     "parameters": {
       "Left": [
+        "Uuid",
         "Uuid"
       ]
     },
@@ -18,5 +19,5 @@
       false
     ]
   },
-  "hash": "079dfbe62caeb40979a6c06c1fbd078dacced77ab49169bff95a0683f0abaad0"
+  "hash": "01e82637aa7dc49a7cb58b99732f5aa2919a4609aa9a8e61c72c1d9c548643b0"
 }

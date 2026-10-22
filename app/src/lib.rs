@@ -3,10 +3,11 @@ pub mod components;
 pub mod pages;
 
 use leptos::prelude::*;
-use leptos_router::components::{Route, Router, Routes, A};
+use leptos_router::components::{Redirect, Route, Router, Routes, A};
 use leptos_router::path;
 
-use crate::pages::{PaginaHome, PaginaLoteDetalhe, PaginaLotes, PaginaNovoLote};
+use crate::components::header::Header;
+use crate::pages::{PaginaCadastro, PaginaLogin, PaginaLoteDetalhe, PaginaLotes, PaginaNovoLote};
 
 /// O CSS é embutido no HTML do SSR para não depender de configuração extra de
 /// assets estáticos neste ciclo.
@@ -17,6 +18,7 @@ const ESTILOS: &str = include_str!("styles.css");
 pub fn App() -> impl IntoView {
     view! {
         <Router>
+            <Header/>
             <Routes fallback=|| view! {
                 <main class="pagina">
                     <h1>"Página não encontrada"</h1>
@@ -24,7 +26,9 @@ pub fn App() -> impl IntoView {
                     <A href="/lotes" attr:class="botao">"Ir para os lotes"</A>
                 </main>
             }>
-                <Route path=path!("/") view=PaginaHome/>
+                <Route path=path!("/") view=|| view! { <Redirect path="/lotes"/> }/>
+                <Route path=path!("/login") view=PaginaLogin/>
+                <Route path=path!("/cadastro") view=PaginaCadastro/>
                 <Route path=path!("/lotes") view=PaginaLotes/>
                 <Route path=path!("/lotes/novo") view=PaginaNovoLote/>
                 <Route path=path!("/lotes/:id") view=PaginaLoteDetalhe/>

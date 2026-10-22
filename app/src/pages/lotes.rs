@@ -44,9 +44,13 @@ pub fn PaginaLotes() -> impl IntoView {
 fn ListaLotes(lotes: Vec<LoteComResumo>) -> impl IntoView {
     if lotes.is_empty() {
         view! {
-            <section class="estado-vazio lista-lotes">
+            <section class="estado-vazio lista-lotes onboarding">
+                <h2>"Você ainda não tem lotes. Crie o primeiro."</h2>
                 <p>"Nenhum lote cadastrado"</p>
-                <A href="/lotes/novo" attr:class="botao botao-estado-vazio">"Novo Lote"</A>
+                <p>"Cadastre seu primeiro lote para começar a acompanhar a rentabilidade."</p>
+                <A href="/lotes/novo" attr:class="botao botao-grande">
+                    "Criar meu primeiro lote"
+                </A>
             </section>
         }
         .into_any()

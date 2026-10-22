@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        SELECT\n            id,\n            nome,\n            data_entrada,\n            qtd_animais,\n            peso_inicial_medio::float8 AS \"peso_inicial_medio!\",\n            custo_compra_total::float8 AS \"custo_compra_total!\",\n            status\n        FROM lotes\n        ORDER BY data_entrada DESC, nome ASC\n        ",
+  "query": "\n        SELECT\n            id,\n            nome,\n            data_entrada,\n            qtd_animais,\n            peso_inicial_medio::float8 AS \"peso_inicial_medio!\",\n            custo_compra_total::float8 AS \"custo_compra_total!\",\n            status\n        FROM lotes\n        WHERE id = $1\n          AND usuario_id = $2\n        ",
   "describe": {
     "columns": [
       {
@@ -40,7 +40,10 @@
       }
     ],
     "parameters": {
-      "Left": []
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
     },
     "nullable": [
       false,
@@ -52,5 +55,5 @@
       false
     ]
   },
-  "hash": "712a98642454db8892687693398adba98ea1a461281b584c15a420174adf81ea"
+  "hash": "ff2265631b25464e991cad7eba7cc6ace3c62012b8d01c1e75854b18a88fbe9e"
 }

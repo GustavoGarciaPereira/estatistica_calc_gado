@@ -1,9 +1,11 @@
+pub mod auth;
 pub mod custo;
 pub mod lote;
 pub mod pesagem;
 pub mod preco;
 pub mod resumo;
 
+pub use auth::{cadastrar, login, logout, usuario_atual, Usuario};
 pub use resumo::{
     listar_lotes_com_resumo, resumo_lote, variacao_preco_7d, DetalheLote, LoteComResumo,
     VariacaoPreco,

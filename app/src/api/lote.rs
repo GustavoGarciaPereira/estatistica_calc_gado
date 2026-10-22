@@ -12,7 +12,10 @@ pub async fn criar_lote(
     peso_inicial_medio: f64,
     custo_compra_total: f64,
 ) -> Result<Lote, ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::ssr::pool;
+
+    let usuario_id = exigir_usuario_id().await?;
 
     if nome.trim().is_empty() {
         return Err(ServerFnError::new("nome do lote não pode ser vazio"));
@@ -49,9 +52,10 @@ pub async fn criar_lote(
             qtd_animais,
             peso_inicial_medio,
             custo_compra_total,
-            status
+            status,
+            usuario_id
         )
-        VALUES ($1, $2, $3, $4::float8::numeric, $5::float8::numeric, 'ativo')
+        VALUES ($1, $2, $3, $4::float8::numeric, $5::float8::numeric, 'ativo', $6)
         RETURNING
             id,
             nome,
@@ -65,7 +69,8 @@ pub async fn criar_lote(
         data_entrada,
         qtd_animais,
         peso_inicial_medio,
-        custo_compra_total
+        custo_compra_total,
+        usuario_id
     )
     .fetch_one(&pool)
     .await?;
@@ -75,8 +80,10 @@ pub async fn criar_lote(
 
 #[server]
 pub async fn listar_lotes() -> Result<Vec<Lote>, ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::ssr::pool;
 
+    let usuario_id = exigir_usuario_id().await?;
     let pool = pool().await?;
     let rows = sqlx::query_as!(
         LoteRow,
@@ -90,8 +97,10 @@ pub async fn listar_lotes() -> Result<Vec<Lote>, ServerFnError> {
             custo_compra_total::float8 AS "custo_compra_total!",
             status
         FROM lotes
+        WHERE usuario_id = $1
         ORDER BY data_entrada DESC, nome ASC
-        "#
+        "#,
+        usuario_id
     )
     .fetch_all(&pool)
     .await?;
@@ -101,8 +110,10 @@ pub async fn listar_lotes() -> Result<Vec<Lote>, ServerFnError> {
 
 #[server]
 pub async fn buscar_lote(id: Uuid) -> Result<Option<Lote>, ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::ssr::pool;
 
+    let usuario_id = exigir_usuario_id().await?;
     let pool = pool().await?;
     let row = sqlx::query_as!(
         LoteRow,
@@ -117,8 +128,10 @@ pub async fn buscar_lote(id: Uuid) -> Result<Option<Lote>, ServerFnError> {
             status
         FROM lotes
         WHERE id = $1
+          AND usuario_id = $2
         "#,
-        id
+        id,
+        usuario_id
     )
     .fetch_optional(&pool)
     .await?;

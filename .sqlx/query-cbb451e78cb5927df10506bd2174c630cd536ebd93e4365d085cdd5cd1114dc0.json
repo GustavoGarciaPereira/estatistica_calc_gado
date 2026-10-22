@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        SELECT\n            id,\n            lote_id,\n            data,\n            tipo,\n            valor::float8 AS \"valor!\"\n        FROM custos\n        WHERE lote_id = $1\n        ORDER BY data\n        ",
+  "query": "\n        SELECT\n            p.id,\n            p.lote_id,\n            p.data,\n            p.peso_medio::float8 AS \"peso_medio!\"\n        FROM pesagens p\n        JOIN lotes l ON l.id = p.lote_id\n        WHERE p.lote_id = $1\n          AND l.usuario_id = $2\n        ORDER BY p.data\n        ",
   "describe": {
     "columns": [
       {
@@ -20,17 +20,13 @@
       },
       {
         "ordinal": 3,
-        "name": "tipo",
-        "type_info": "Text"
-      },
-      {
-        "ordinal": 4,
-        "name": "valor!",
+        "name": "peso_medio!",
         "type_info": "Float8"
       }
     ],
     "parameters": {
       "Left": [
+        "Uuid",
         "Uuid"
       ]
     },
@@ -38,9 +34,8 @@
       false,
       false,
       false,
-      false,
       null
     ]
   },
-  "hash": "65a1e2c6f7fb6865dc1cca66eda048ab8508d798122a3e84c7d7562b31dc6279"
+  "hash": "cbb451e78cb5927df10506bd2174c630cd536ebd93e4365d085cdd5cd1114dc0"
 }

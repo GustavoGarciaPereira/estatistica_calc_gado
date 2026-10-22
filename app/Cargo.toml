@@ -12,6 +12,9 @@ crate-type = ["cdylib", "rlib"]
 leptos = { version = "0.8", default-features = false }
 leptos_router = "0.8"
 domain = { path = "../domain", optional = true, features = ["serde"] }
+argon2 = { version = "0.6", optional = true }
+rand = { version = "0.8", optional = true }
+tower-sessions = { version = "0.15", optional = true }
 sqlx = { version = "0.8", optional = true, default-features = false, features = [
     "macros",
     "derive",
@@ -38,6 +41,9 @@ ssr = [
     "chrono/clock",
     "dep:sqlx",
     "dep:domain",
+    "dep:argon2",
+    "dep:rand",
+    "dep:tower-sessions",
     "dep:leptos_axum",
     "dep:axum",
 ]

@@ -10,7 +10,10 @@ pub async fn criar_pesagem(
     data: NaiveDate,
     peso_medio: f64,
 ) -> Result<Pesagem, ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::ssr::{pool, validar_status_lote};
+
+    let usuario_id = exigir_usuario_id().await?;
 
     if !peso_medio.is_finite() || peso_medio <= 0.0 {
         return Err(ServerFnError::new("peso médio deve ser maior que zero"));
@@ -25,8 +28,9 @@ pub async fn criar_pesagem(
 
     let status = sqlx::query_as!(
         StatusLoteRow,
-        "SELECT status FROM lotes WHERE id = $1",
-        lote_id
+        "SELECT status FROM lotes WHERE id = $1 AND usuario_id = $2",
+        lote_id,
+        usuario_id
     )
     .fetch_optional(&pool)
     .await?

@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        INSERT INTO lotes (\n            nome,\n            data_entrada,\n            qtd_animais,\n            peso_inicial_medio,\n            custo_compra_total,\n            status\n        )\n        VALUES ($1, $2, $3, $4::float8::numeric, $5::float8::numeric, 'ativo')\n        RETURNING\n            id,\n            nome,\n            data_entrada,\n            qtd_animais,\n            peso_inicial_medio::float8 AS \"peso_inicial_medio!\",\n            custo_compra_total::float8 AS \"custo_compra_total!\",\n            status\n        ",
+  "query": "\n        INSERT INTO lotes (\n            nome,\n            data_entrada,\n            qtd_animais,\n            peso_inicial_medio,\n            custo_compra_total,\n            status,\n            usuario_id\n        )\n        VALUES ($1, $2, $3, $4::float8::numeric, $5::float8::numeric, 'ativo', $6)\n        RETURNING\n            id,\n            nome,\n            data_entrada,\n            qtd_animais,\n            peso_inicial_medio::float8 AS \"peso_inicial_medio!\",\n            custo_compra_total::float8 AS \"custo_compra_total!\",\n            status\n        ",
   "describe": {
     "columns": [
       {
@@ -45,7 +45,8 @@
         "Date",
         "Int4",
         "Float8",
-        "Float8"
+        "Float8",
+        "Uuid"
       ]
     },
     "nullable": [
@@ -58,5 +59,5 @@
       false
     ]
   },
-  "hash": "7e0797cf935efc00f2dfec97a64a88b9eecce3e6bc140e209fd6a94fde32884c"
+  "hash": "8f6ff4f9f2ae21a69925dba159a649f2a537ec81e2aaaa9516e39dfb8f94610a"
 }

@@ -12,7 +12,10 @@ pub async fn upsert_preco(
     regiao: String,
     preco_kg: f64,
 ) -> Result<(), ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::ssr::pool;
+
+    let _usuario_id = exigir_usuario_id().await?;
 
     if regiao.trim().is_empty() {
         return Err(ServerFnError::new("região do preço não pode ser vazia"));

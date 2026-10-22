@@ -11,7 +11,10 @@ pub async fn criar_custo(
     tipo: TipoCusto,
     valor: f64,
 ) -> Result<Custo, ServerFnError> {
+    use crate::api::auth::exigir_usuario_id;
     use crate::api::ssr::{pool, validar_status_lote};
+
+    let usuario_id = exigir_usuario_id().await?;
 
     if !valor.is_finite() || valor < 0.0 {
         return Err(ServerFnError::new("valor do custo não pode ser negativo"));
@@ -26,8 +29,9 @@ pub async fn criar_custo(
 
     let status = sqlx::query_as!(
         StatusLoteRow,
-        "SELECT status FROM lotes WHERE id = $1",
-        lote_id
+        "SELECT status FROM lotes WHERE id = $1 AND usuario_id = $2",
+        lote_id,
+        usuario_id
     )
     .fetch_optional(&pool)
     .await?
