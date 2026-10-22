@@ -120,31 +120,34 @@ Quando a UI existir, adicionar `cargo leptos watch` e o teste com produtor real.
 
 ## 7. Estado atual
 
-- **Ciclo 1:** aprovado e tagueado (`ciclo-1-aprovado`); 27 testes passando, `clippy -D warnings` limpo.
-- **Ciclo 2:** aprovado e tagueado (`ciclo-2-aprovado`); PostgreSQL 16 via Docker, migrações SQLx, 7 server functions em `app/src/api/`, `.sqlx/` versionado e scaffold Leptos/Axum funcionando com `cargo leptos watch`.
-- **Ciclo 3:** implementação concluída no commit `8abc76e` e auditoria técnica do DSH aprovada (25/25). **HG-1 pendente**; não taguear nem declarar aprovado antes da validação com um produtor real.
-  - HG-1: aguardando produtor, tempo até decisão e citação literal.
-  - Observações do produtor que virarem pauta do Ciclo 4 serão registradas após o teste.
-- **Ciclo 3.1:** ajustes visuais após dry-run mobile simulado em 390×844, no commit `e051dce`: moeda com separador de milhares, CTA "Novo Lote" fixo no rodapé no celular e termômetro em duas colunas. O teste físico no aparelho do produtor continua pendente.
-- **Ciclo 4:** não iniciado; a próxima decisão depende do resultado do HG-1 (Rota A de campo).
-- O crate `domain/` continua congelado; alterações só com contrato que autorize explicitamente.
+- Ciclo 1 aprovado e tagueado (`ciclo-1-aprovado`).
+- Ciclo 2 aprovado e tagueado (`ciclo-2-aprovado`).
+- Ciclo 3 + 3.1 aprovados em 731b69d (DSH, v1.3 + 3.1 completo).
+  - Tag: `ciclo-3-aprovado` (aponta para 731b69d).
+  - HG-1: PENDENTE — produtor real ainda não viu a tela.
+  - Limitações aceitas: tablet 641-759px (rever 3.2 se aplicável);
+    f64 em formatar_moeda (rever Ciclo 4 se houver contabilidade).
+- Ciclo 4: PENDENTE — campo (3 produtores, 1 semana), não código.
+- `domain/` congelado desde `ciclo-1-aprovado`.
 
-### Limitações aceitas (registro de transparência)
+### Regra de tag e HG-1
 
-| Item | Origem | Rever no ciclo |
-| :--- | :--- | :--- |
-| Fallback sem JS redireciona para `/lotes/novo` | CA-9 v1.3 | 3.1 se HG-1 apontar |
-| N+1 até 50 lotes em `listar_lotes_com_resumo` | CA-5 v1.2 | 4 (se produtor tiver >20 lotes) |
-| Seta "em 7 dias" mostra última variação | CA-6 × CA-14 | 3.1 se produtor perguntar |
-| Região "MT" fixa em `variacao_preco_7d` | CA-6 | 4 (multi-região) |
-| Threshold 0.10 hardcoded na UI | CA-12/13 | 4 (mover para `domain/`) |
+- **Tag** marca "código auditado contra contrato" (DSH APROVADO).
+- **HG-1** marca "produto validado por produtor real".
+- Tag após DSH APROVADO. HG-1 é condição para o **próximo ciclo**,
+  não para o tag.
+- Se HG-1 ❌: abre Ciclo 3.2 (ajuste visual, escopo travado em
+  pages/components/styles). Tag do 3.1 permanece.
 
-### Regras de processo (ciclo 3)
+### Regras de processo (consolidadas)
 
-- §2.1 — CA de framework só depois de medir.
-- §2.2 — CA de artefato novo exige recommit.
+- §2.1 — CA de framework só depois de medir (curl -i, ler código do
+  framework).
+- §2.2 — CA de artefato novo exige recommit (não emendar CA sem commitar).
 - §2.3 — Emenda (a) CA errado/código certo: reaudita mesmo hash.
-- §2.3 — Emenda (b) CA certo/código incompleto: commita, reaudita hash novo.
+         Emenda (b) CA certo/código incompleto: commita, reaudita novo hash.
+- §2.4 — Prompt para DSH é auto-contido: sem placeholders, sem "acima",
+         sem [colar]. Se tem placeholder, o prompt não está pronto.
 
 ## 8. Ordem dos ciclos
 
