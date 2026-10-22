@@ -48,8 +48,9 @@ Regras do loop:
 6. **Sem SQL fora de `#[server]`.** O frontend nunca vê SQL.
 7. **Sem cálculo de negócio na UI.** A UI apenas exibe o que o crate `domain/` calculou.
 8. **Sem `todo!()`, `unimplemented!()` ou `dbg!()`** no código entregue.
-9. **Sem alterar `domain/` em ciclos posteriores** sem um contrato que autorize explicitamente.
-10. **Sem inflar o ciclo.** Se não está no Contrato de Aceitação, não entra.
+9. **Sem stub vazio ou função placeholder.** Se não tem comportamento real, não entra. Uma `fn vazia() {}` ou página sem conteúdo reprova mesmo que o nome não seja `todo!()`.
+10. **Sem alterar `domain/` em ciclos posteriores** sem um contrato que autorize explicitamente.
+11. **Sem inflar o ciclo.** Se não está no Contrato de Aceitação, não entra.
 
 ## 4. Modelo de domínio (Ciclo 1)
 
@@ -90,13 +91,14 @@ projeto/
 ├── AGENTS.md
 ├── Cargo.toml            # workspace
 ├── domain/               # Rust puro: modelos, cálculos e testes
-├── app/                  # Leptos: páginas e componentes (a criar)
-├── server/               # Axum + #[server] + SQLx (a criar)
-├── migrations/           # SQLx (a criar)
+├── app/                  # Leptos: UI + app/src/api/ com #[server] + SQLx
+├── server/               # Entry point Axum: pool, rotas e static assets (sem SQL)
+├── migrations/           # SQLx
+├── .sqlx/                # metadados de queries para build offline
 └── public/               # PWA manifest + service worker (a criar)
 ```
 
-Regra de ouro: toda query SQL fica em `server/src/api/` dentro de `#[server]`. O frontend nunca vê SQL. Cálculo é sempre delegado a `domain/`.
+Regra de ouro: toda query SQL fica em `app/src/api/` dentro de `#[server]`. O `server/` é apenas o entry point Axum; o frontend nunca vê SQL. Cálculo é sempre delegado a `domain/`.
 
 ## 6. Comandos de verificação
 
@@ -118,9 +120,10 @@ Quando a UI existir, adicionar `cargo leptos watch` e o teste com produtor real.
 
 ## 7. Estado atual
 
-- **Ciclo 1:** implementado, 27 testes passando, `clippy -D warnings` limpo. Aguardando auditoria do DSH e aprovação humana.
-- **Ciclo 2:** não iniciado. Ainda não há Postgres, migrações, server functions nem scaffold Leptos.
-- O crate `domain/` está congelado até o veredito do auditor.
+- **Ciclo 1:** aprovado e tagueado (`ciclo-1-aprovado`); 27 testes passando, `clippy -D warnings` limpo.
+- **Ciclo 2:** aprovado e tagueado (`ciclo-2-aprovado`); PostgreSQL 16 via Docker, migrações SQLx, 7 server functions em `app/src/api/`, `.sqlx/` versionado e scaffold Leptos/Axum funcionando com `cargo leptos watch`.
+- **Ciclo 3:** não iniciado. A próxima fatia é a UI do termômetro.
+- O crate `domain/` continua congelado; alterações só com contrato que autorize explicitamente.
 
 ## 8. Ordem dos ciclos
 
