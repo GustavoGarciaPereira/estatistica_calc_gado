@@ -8,6 +8,10 @@ use crate::api::lote::CriarLote;
 
 #[component]
 pub fn PaginaNovoLote() -> impl IntoView {
+    // LIMITAÇÃO do fallback sem WASM: o `<ActionForm>` envia o POST progressivo
+    // e o server function redireciona para `/lotes/novo` (via `Referer`), não
+    // para `/lotes`. O usuário pode reenviar o formulário e criar uma duplicata;
+    // o redirect para `/lotes` depende do `Effect` acima, que só executa com WASM.
     let acao = ServerAction::<CriarLote>::new();
     let navigate = use_navigate();
     let valor = acao.value();
