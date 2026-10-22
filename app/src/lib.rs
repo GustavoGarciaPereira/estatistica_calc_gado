@@ -1,9 +1,8 @@
 pub mod api;
-pub mod pages;
 
 use leptos::prelude::*;
 
-/// Página placeholder do Ciclo 2. O Ciclo 3 substitui pelo fluxo real.
+/// Página inicial do Ciclo 2. O Ciclo 3 substitui pelo fluxo real.
 #[component]
 pub fn App() -> impl IntoView {
     view! {
