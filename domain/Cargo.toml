@@ -1,0 +1,14 @@
+[package]
+name = "domain"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Domínio puro de rentabilidade de lotes de gado"
+
+[dependencies]
+chrono.workspace = true
+serde = { workspace = true, optional = true }
+
+[features]
+default = []
+serde = ["dep:serde", "chrono/serde"]
