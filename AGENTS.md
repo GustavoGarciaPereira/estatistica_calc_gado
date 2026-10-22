@@ -122,8 +122,28 @@ Quando a UI existir, adicionar `cargo leptos watch` e o teste com produtor real.
 
 - **Ciclo 1:** aprovado e tagueado (`ciclo-1-aprovado`); 27 testes passando, `clippy -D warnings` limpo.
 - **Ciclo 2:** aprovado e tagueado (`ciclo-2-aprovado`); PostgreSQL 16 via Docker, migrações SQLx, 7 server functions em `app/src/api/`, `.sqlx/` versionado e scaffold Leptos/Axum funcionando com `cargo leptos watch`.
-- **Ciclo 3:** não iniciado. A próxima fatia é a UI do termômetro.
+- **Ciclo 3:** implementação concluída no commit `8abc76e` e auditoria técnica do DSH aprovada (25/25). **HG-1 pendente**; não taguear nem declarar aprovado antes da validação com um produtor real.
+  - HG-1: aguardando produtor, tempo até decisão e citação literal.
+  - Observações do produtor que virarem pauta do Ciclo 4 serão registradas após o teste.
+- **Ciclo 4:** não iniciado; a próxima decisão depende do resultado do HG-1 (Rota A de campo).
 - O crate `domain/` continua congelado; alterações só com contrato que autorize explicitamente.
+
+### Limitações aceitas (registro de transparência)
+
+| Item | Origem | Rever no ciclo |
+| :--- | :--- | :--- |
+| Fallback sem JS redireciona para `/lotes/novo` | CA-9 v1.3 | 3.1 se HG-1 apontar |
+| N+1 até 50 lotes em `listar_lotes_com_resumo` | CA-5 v1.2 | 4 (se produtor tiver >20 lotes) |
+| Seta "em 7 dias" mostra última variação | CA-6 × CA-14 | 3.1 se produtor perguntar |
+| Região "MT" fixa em `variacao_preco_7d` | CA-6 | 4 (multi-região) |
+| Threshold 0.10 hardcoded na UI | CA-12/13 | 4 (mover para `domain/`) |
+
+### Regras de processo (ciclo 3)
+
+- §2.1 — CA de framework só depois de medir.
+- §2.2 — CA de artefato novo exige recommit.
+- §2.3 — Emenda (a) CA errado/código certo: reaudita mesmo hash.
+- §2.3 — Emenda (b) CA certo/código incompleto: commita, reaudita hash novo.
 
 ## 8. Ordem dos ciclos
 
