@@ -53,6 +53,7 @@ dependencies = [
  "domain",
  "leptos",
  "leptos_axum",
+ "leptos_router",
  "serde",
  "server_fn",
  "sqlx",

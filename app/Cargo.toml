@@ -10,6 +10,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 leptos = { version = "0.8", default-features = false }
+leptos_router = "0.8"
 domain = { path = "../domain", optional = true, features = ["serde"] }
 sqlx = { version = "0.8", optional = true, default-features = false, features = [
     "macros",
@@ -33,6 +34,8 @@ csr = ["leptos/csr", "dep:domain"]
 hydrate = ["leptos/hydrate", "dep:domain"]
 ssr = [
     "leptos/ssr",
+    "leptos_router/ssr",
+    "chrono/clock",
     "dep:sqlx",
     "dep:domain",
     "dep:leptos_axum",

@@ -1,15 +1,35 @@
 pub mod api;
+pub mod components;
+pub mod pages;
 
 use leptos::prelude::*;
+use leptos_router::components::{Route, Router, Routes, A};
+use leptos_router::path;
 
-/// Página inicial do Ciclo 2. O Ciclo 3 substitui pelo fluxo real.
+use crate::pages::{PaginaHome, PaginaLoteDetalhe, PaginaLotes, PaginaNovoLote};
+
+/// O CSS é embutido no HTML do SSR para não depender de configuração extra de
+/// assets estáticos neste ciclo.
+#[cfg(feature = "ssr")]
+const ESTILOS: &str = include_str!("styles.css");
+
 #[component]
 pub fn App() -> impl IntoView {
     view! {
-        <main>
-            <h1>"Rentabilidade de Lotes"</h1>
-            <p>"Fundação do servidor pronta. A tela de trabalho chega no Ciclo 3."</p>
-        </main>
+        <Router>
+            <Routes fallback=|| view! {
+                <main class="pagina">
+                    <h1>"Página não encontrada"</h1>
+                    <p>"O endereço acessado não existe."</p>
+                    <A href="/lotes" attr:class="botao">"Ir para os lotes"</A>
+                </main>
+            }>
+                <Route path=path!("/") view=PaginaHome/>
+                <Route path=path!("/lotes") view=PaginaLotes/>
+                <Route path=path!("/lotes/novo") view=PaginaNovoLote/>
+                <Route path=path!("/lotes/:id") view=PaginaLoteDetalhe/>
+            </Routes>
+        </Router>
     }
 }
 
@@ -22,9 +42,11 @@ pub fn shell(options: leptos::config::LeptosOptions) -> impl IntoView {
             <head>
                 <meta charset="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link rel="icon" href="data:,"/>
                 <AutoReload options=options.clone()/>
                 <HydrationScripts options=options.clone()/>
                 <title>"Rentabilidade de Lotes"</title>
+                <style>{ESTILOS}</style>
             </head>
             <body>
                 <App/>

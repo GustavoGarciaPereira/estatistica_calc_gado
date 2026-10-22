@@ -4,6 +4,11 @@ pub mod pesagem;
 pub mod preco;
 pub mod resumo;
 
+pub use resumo::{
+    listar_lotes_com_resumo, resumo_lote, variacao_preco_7d, DetalheLote, LoteComResumo,
+    VariacaoPreco,
+};
+
 #[cfg(feature = "ssr")]
 pub(crate) mod ssr {
     use axum::Extension;

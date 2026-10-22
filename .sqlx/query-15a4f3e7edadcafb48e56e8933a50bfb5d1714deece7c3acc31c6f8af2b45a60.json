@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        SELECT\n            data,\n            regiao,\n            preco_kg::float8 AS \"preco_kg!\"\n        FROM precos_mercado\n        WHERE regiao = $1\n        ORDER BY data DESC\n        LIMIT 1\n        ",
+  "query": "\n        SELECT\n            data,\n            regiao,\n            preco_kg::float8 AS \"preco_kg!\"\n        FROM precos_mercado\n        WHERE regiao = $1\n          AND data <= $2\n        ORDER BY data DESC\n        LIMIT 1\n        ",
   "describe": {
     "columns": [
       {
@@ -21,7 +21,8 @@
     ],
     "parameters": {
       "Left": [
-        "Text"
+        "Text",
+        "Date"
       ]
     },
     "nullable": [
@@ -30,5 +31,5 @@
       null
     ]
   },
-  "hash": "3c6562fcafee6ac8623c140a2a9d7c66ae2c77140afa803b875795b12555e8cb"
+  "hash": "15a4f3e7edadcafb48e56e8933a50bfb5d1714deece7c3acc31c6f8af2b45a60"
 }

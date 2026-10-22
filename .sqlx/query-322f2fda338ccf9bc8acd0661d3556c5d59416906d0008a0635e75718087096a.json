@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT\n            (\n                SELECT preco_kg::float8\n                FROM precos_mercado\n                WHERE regiao = $1\n                  AND data <= $2\n                ORDER BY data DESC\n                LIMIT 1\n            ) AS \"preco_hoje?\",\n            (\n                SELECT preco_kg::float8\n                FROM precos_mercado\n                WHERE regiao = $1\n                  AND data <= $2\n                ORDER BY data DESC\n                LIMIT 1 OFFSET 1\n            ) AS \"preco_7d_atras?\"\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "preco_hoje?",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 1,
+        "name": "preco_7d_atras?",
+        "type_info": "Float8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "322f2fda338ccf9bc8acd0661d3556c5d59416906d0008a0635e75718087096a"
+}
