@@ -10,13 +10,13 @@ pub fn PaginaLotes() -> impl IntoView {
     let lotes = Resource::new(|| (), |_| listar_lotes_com_resumo());
 
     view! {
-        <main class="pagina">
+        <main class="pagina pagina-lista">
             <header class="topo">
                 <div>
                     <h1>"Lotes"</h1>
                     <p>"Rentabilidade do rebanho por lote"</p>
                 </div>
-                <A href="/lotes/novo" attr:class="botao">"Novo Lote"</A>
+                <A href="/lotes/novo" attr:class="botao botao-topo">"Novo Lote"</A>
             </header>
 
             <Suspense fallback=|| view! {
@@ -46,7 +46,7 @@ fn ListaLotes(lotes: Vec<LoteComResumo>) -> impl IntoView {
         view! {
             <section class="estado-vazio">
                 <p>"Nenhum lote cadastrado"</p>
-                <A href="/lotes/novo" attr:class="botao">"Novo Lote"</A>
+                <A href="/lotes/novo" attr:class="botao botao-estado-vazio">"Novo Lote"</A>
             </section>
         }
         .into_any()

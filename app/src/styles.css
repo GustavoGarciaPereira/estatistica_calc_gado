@@ -415,6 +415,26 @@ h3 {
         flex-direction: column;
     }
 
+    .pagina-lista {
+        padding-bottom: 6rem;
+    }
+
+    .botao-topo {
+        position: fixed;
+        right: 1rem;
+        bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+        left: 1rem;
+        z-index: 20;
+        min-height: 3rem;
+        box-shadow: 0 6px 20px rgba(20, 83, 45, 0.25);
+    }
+
+    .botao-estado-vazio {
+        display: none;
+    }
+}
+
+@media (max-width: 360px) {
     .termometro-campos {
         grid-template-columns: 1fr;
     }
