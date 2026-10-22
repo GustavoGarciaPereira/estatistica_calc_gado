@@ -125,6 +125,7 @@ Quando a UI existir, adicionar `cargo leptos watch` e o teste com produtor real.
 - **Ciclo 3:** implementação concluída no commit `8abc76e` e auditoria técnica do DSH aprovada (25/25). **HG-1 pendente**; não taguear nem declarar aprovado antes da validação com um produtor real.
   - HG-1: aguardando produtor, tempo até decisão e citação literal.
   - Observações do produtor que virarem pauta do Ciclo 4 serão registradas após o teste.
+- **Ciclo 3.1:** ajustes visuais após dry-run mobile simulado em 390×844, no commit `e051dce`: moeda com separador de milhares, CTA "Novo Lote" fixo no rodapé no celular e termômetro em duas colunas. O teste físico no aparelho do produtor continua pendente.
 - **Ciclo 4:** não iniciado; a próxima decisão depende do resultado do HG-1 (Rota A de campo).
 - O crate `domain/` continua congelado; alterações só com contrato que autorize explicitamente.
 
