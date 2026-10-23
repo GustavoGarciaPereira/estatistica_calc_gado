@@ -127,6 +127,23 @@ Quando a UI existir, adicionar `cargo leptos watch` e o teste com produtor real.
   - HG-1: PENDENTE — produtor real ainda não viu a tela.
   - Limitações aceitas: tablet 641-759px (rever 3.2 se aplicável);
     f64 em formatar_moeda (rever Ciclo 4 se houver contabilidade).
+- Ciclo 4-A + 4-A.1 aprovados.
+  - Tag: `ciclo-4a-aprovado` → fea35f0.
+  - Auth: argon2id, sessions com cookie HttpOnly/SameSite=Lax.
+  - Isolamento entre usuários validado ao vivo pelo DSH (A não vê lote de B).
+  - Onboarding: CTA "Criar meu primeiro lote" quando zero lotes.
+  - SESSION_SECRET: placeholder no .env.example, aviso no README.
+  - HG-1: PENDENTE.
+
+### Limitações aceitas do Ciclo 4-A
+
+| Item | Origem | Rever em |
+| :--- | :--- | :--- |
+| Preços de mercado globais e graváveis por qualquer usuário autenticado | CA-10 (contratado, não é débito) | Ciclo 5 (papel `admin` para escrita) |
+| `with_secure(false)` em server/src/main.rs:85 | Obs 2 do DSH | Antes de deploy TLS (`true` obrigatório) |
+| Dupla autoridade de sessão (MemoryStore + token no DB) | Obs 3 do DSH | Ciclo 5 se revogação de sessão importar |
+| Sem rate-limit / lockout no login | Obs 5 do DSH | Ciclo 5 se houver ataque real |
+
 - Ciclo 4: PENDENTE — campo (3 produtores, 1 semana), não código.
 - `domain/` congelado desde `ciclo-1-aprovado`.
 
