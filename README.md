@@ -73,6 +73,18 @@ O `0.0.0.0` expõe a aplicação a qualquer dispositivo da rede local, sem
 autenticação, e representa risco de segurança. Use apenas durante o teste,
 em rede confiável, e volte para `127.0.0.1:3000` depois.
 
+## SESSION_SECRET
+
+O valor em `.env.example` é **placeholder público**. Gere o seu com:
+
+```bash
+openssl rand -hex 32
+```
+
+Cole no seu `.env` local (que está no `.gitignore`). **Nunca commite o valor real.**
+
+O segredo assina cookies de sessão. Se vazar, qualquer um pode forjar sessão autenticada. Trocar o segredo invalida todas as sessões ativas.
+
 O servidor Axum injeta o `sqlx::PgPool` como `Extension` e as server functions
 ficam em `app/src/api/`, todas com `#[server]`. Toda query usa `sqlx::query_as!`
 e os cálculos são delegados ao crate `domain/`.
